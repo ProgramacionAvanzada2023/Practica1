@@ -5,7 +5,12 @@ import java.util.List;
 
 public class Table {
     private List<String> headers;
-    private List<Row> listaFilas = new ArrayList<>();
+    private List<Row> listaFilas;
+
+    public Table() {
+        this.headers = new ArrayList<>();
+        this.listaFilas = new ArrayList<>();
+    }
 
     public List<String> getHeaders() {
         return headers;

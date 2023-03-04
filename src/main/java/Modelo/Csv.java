@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class csv {
+public class Csv {
 
     public static final String SEPARADOR = ",";
 
@@ -17,27 +17,18 @@ public class csv {
         Table tabla = new Table();
         try {
             // Abrir el .csv en buffer de lectura
-
             bufferLectura = new BufferedReader(new FileReader(ruta));
-
             // Leer una linea del archivo
             String linea = bufferLectura.readLine();
-
-            //Primero comprobamos si la primera linea no sea nula (El fichero no esta vacio) y la leemos
+            //Primero llemos la cabecera si el fichero no esta vacio
             if(linea != null){
                 List<String> headers = Arrays.stream(linea.split(SEPARADOR)).toList();
                 tabla.setHeaders(headers);
+                linea = bufferLectura.readLine();
             }
-
-            linea = bufferLectura.readLine();
             while (linea != null) {
-                // Sepapar la linea leída con el separador definido previamente
-                List<Double> listaCampos = Arrays.stream(linea.split(SEPARADOR))
-                        .map(Double::parseDouble)
-                        .collect(Collectors.toList());
-                RowWithLabel fila = new RowWithLabel(listaCampos);
-                tabla.addFilas(fila);
-
+                // Introducir nueva fila en la tabla
+                anyadirFilaEnTabla(tabla, linea);
                 // Volver a leer otra línea del fichero
                 linea = bufferLectura.readLine();
             }
@@ -57,6 +48,14 @@ public class csv {
             }
         }
         return tabla;
+    }
+
+    private static void anyadirFilaEnTabla(Table tabla, String linea) {
+        List<Double> listaCampos = Arrays.stream(linea.split(SEPARADOR))
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
+        Row fila = new Row(listaCampos);
+        tabla.addFilas(fila);
     }
 
     public static TableWithLabels readTableWithLabels(String ruta){
@@ -65,34 +64,19 @@ public class csv {
         try {
             // Abrir el .csv en buffer de lectura
             bufferLectura = new BufferedReader(new FileReader(ruta));
-
             // Leer una linea del archivo
             String linea = bufferLectura.readLine();
-
-            //Primero comprobamos si la primera linea no sea nula (El fichero no esta vacio) y la leemos
+            //Primero llemos la cabecera si el fichero no esta vacio
             if(linea != null){
                 List<String> headers = Arrays.stream(linea.split(SEPARADOR)).toList();
                 tabla.setHeaders(headers);
+                linea = bufferLectura.readLine();
             }
 
-            linea = bufferLectura.readLine();
             int numElemCabecera = tabla.getHeaders().size();
             while (linea != null) {
-                // Sepapar la linea leída con el separador definido previamente
-                String[] listaValores = linea.split(SEPARADOR);
-                List<Double> listaCampos = new ArrayList<>();
-                for (int i = 0; i < numElemCabecera-1; i++ ) {
-                    listaCampos.add(Double.parseDouble(listaValores[i]));
-                }
-                String claseFlor = listaValores[numElemCabecera-1];
-                int cantidadFlores = tabla.getClasificacionFlores().size() + 1;
-                tabla.getClasificacionFlores().putIfAbsent(claseFlor,cantidadFlores);
-                int numFlor = tabla.getClasificacionFlores().get(claseFlor);
-                listaCampos.add(Double.valueOf(numFlor));
-
-                Row fila = new Row(listaCampos);
-                tabla.addFilas(fila);
-
+                // Introducir nueva fila en la tabla
+                anyadirFilaEnTableWithLabels(tabla, linea, numElemCabecera);
                 // Volver a leer otra línea del fichero
                 linea = bufferLectura.readLine();
             }
@@ -114,9 +98,19 @@ public class csv {
         return tabla;
     }
 
-    public static void main(String[] args) {
+    private static void anyadirFilaEnTableWithLabels(TableWithLabels tabla, String linea, int numElemCabecera) {
+        String[] listaValores = linea.split(SEPARADOR);
+        List<Double> dimensiones = new ArrayList<>();
+        for (int i = 0; i < numElemCabecera -2; i++ ) {
+            dimensiones.add(Double.parseDouble(listaValores[i]));
+        }
+        RowWithLabel fila = new RowWithLabel(dimensiones);
 
-        //Table tabla = readTable("src/main/java/Ficheros/miles_dollars.csv");
-        TableWithLabels tablaConEtiquetas = readTableWithLabels("src/main/java/Ficheros/iris.csv");
+        String claseFlor = listaValores[numElemCabecera -1];
+        tabla.getClasificacionFlores().putIfAbsent(claseFlor,tabla.getClasificacionFlores().size()+1);
+        int numFlor = tabla.getClasificacionFlores().get(claseFlor);
+        fila.setNumberClass(numFlor);
+
+        tabla.addFilas(fila);
     }
 }

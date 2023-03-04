@@ -1,18 +1,16 @@
 package Modelo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class RowWithLabel extends Row{
     private int numberClass;
 
-    public RowWithLabel(List<Double> data) {
-        super(data);
+    public RowWithLabel(List<Double> fila) {
+        super(fila);
     }
 
     public int getNumberClass() {
-        return numberClass;
+        return this.numberClass;
     }
 
     public void setNumberClass(int numberClass) {

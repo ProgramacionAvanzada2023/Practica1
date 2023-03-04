@@ -3,17 +3,17 @@ package Modelo;
 import java.util.List;
 
 public class Row {
-    private List<Double> data;
+    private List<Double> fila;
 
-    public Row(List<Double> data) {
-        this.data = data;
+    public Row(List<Double> fila) {
+        this.fila = fila;
     }
 
-    public List<Double> getData() {
-        return data;
+    public List<Double> getFila() {
+        return fila;
     }
 
-    public void setData(List<Double> data) {
-        this.data = data;
+    public void setFila(List<Double> fila) {
+        this.fila = fila;
     }
 }

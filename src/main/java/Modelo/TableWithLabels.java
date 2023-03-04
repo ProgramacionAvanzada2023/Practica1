@@ -6,31 +6,42 @@ import java.util.List;
 import java.util.Map;
 
 public class TableWithLabels extends Table {
-    private List<RowWithLabel> filas = new ArrayList<>();
-    private Map<String, Integer> clasificacionFlores = new HashMap<>();
+    private List<RowWithLabel> listaFilasConEtiqueta;
+    private Map<String, Integer> clasificacionFlores;
 
-    public List<RowWithLabel> getFilas() {
-        return filas;
+    public TableWithLabels (){
+        super();
+        this.listaFilasConEtiqueta = new ArrayList<>();
+        this.clasificacionFlores = new HashMap<>();
+
+        for (Row f : super.getListaFilas()) {
+            RowWithLabel fila = new RowWithLabel(f.getFila());
+            addFilas(fila);
+        }
     }
 
-    public void setFilas(List<RowWithLabel> filas) {
-        this.filas = filas;
+    public List<RowWithLabel> getListaFilasConEtiqueta() {
+        return listaFilasConEtiqueta;
+    }
+
+    public void setListaFilasConEtiqueta(List<RowWithLabel> listaFilasConEtiqueta) {
+        this.listaFilasConEtiqueta = listaFilasConEtiqueta;
     }
 
     public Map<String, Integer> getClasificacionFlores() {
         return clasificacionFlores;
     }
 
+    public void addFilas(RowWithLabel fila){
+        this.listaFilasConEtiqueta.add(fila);
+    }
+
     public void setClasificacionFlores(Map<String, Integer> clasificacionFlores) {
         this.clasificacionFlores = clasificacionFlores;
     }
 
-    public void addFilas(RowWithLabel fila){
-        this.filas.add(fila);
-    }
-
     @Override
     public RowWithLabel getRowAt(int numeroLinea) {
-        return filas.get(numeroLinea);
+        return this.listaFilasConEtiqueta.get(numeroLinea);
     }
 }
