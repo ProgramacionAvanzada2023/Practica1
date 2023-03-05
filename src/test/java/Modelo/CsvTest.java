@@ -24,7 +24,6 @@ class CsvTest {
         comprobarCantidadCabeceraTabla(tabla,2);
         //El nombre de las etiquetas de las cabeceras es correcto.
         comprobarCabeceraTabla(tabla);
-        //El número que se asigna a cada fila es correcto.
         //Las filas que guardas en una tabla puedes recuperarlas conteniendo los mismos valores que guardaste.
         comprobarFilaTabla(tabla);
     }
@@ -64,7 +63,7 @@ class CsvTest {
         //El nombre de las etiquetas de las cabeceras es correcto.
         comprobarCabeceraTablaEtiquetas(tabla);
         //El número que se asigna a cada fila es correcto.
-
+        comprobarNumeroClaseTablaEtiquetas(tabla);
         //Las filas que guardas en una tabla puedes recuperarlas conteniendo los mismos valores que guardaste.
         comprobarFilaTablaEtiquetas(tabla);
     }
@@ -88,13 +87,16 @@ class CsvTest {
         assertEquals(cabeceraOriginal, cabeceraTabla );
     }
 
+    private static void comprobarNumeroClaseTablaEtiquetas(TableWithLabels tabla){
+        assertEquals(1, tabla.getRowAt(0).getNumberClass());
+    }
+
     private static void comprobarFilaTablaEtiquetas(TableWithLabels tabla) {
         List<Double> datos = new ArrayList<>();
         datos.add(5.1);
         datos.add(3.5);
         datos.add(1.4);
         datos.add(0.2);
-        datos.add(1D);
-        assertEquals(datos, tabla.getRowAt(3).getFila());
+        assertEquals(datos, tabla.getRowAt(0).getFila());
     }
 }

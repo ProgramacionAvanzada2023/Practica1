@@ -101,7 +101,7 @@ public class Csv {
     private static void anyadirFilaEnTableWithLabels(TableWithLabels tabla, String linea, int numElemCabecera) {
         String[] listaValores = linea.split(SEPARADOR);
         List<Double> dimensiones = new ArrayList<>();
-        for (int i = 0; i < numElemCabecera -2; i++ ) {
+        for (int i = 0; i < numElemCabecera -1; i++ ) {
             dimensiones.add(Double.parseDouble(listaValores[i]));
         }
         RowWithLabel fila = new RowWithLabel(dimensiones);
