@@ -7,12 +7,12 @@ import java.util.Map;
 
 public class TableWithLabels extends Table {
     private List<RowWithLabel> listaFilasConEtiqueta;
-    private Map<String, Integer> clasificacionFlores;
+    private Map<String, Integer> clasificacion;
 
     public TableWithLabels (){
         super();
         this.listaFilasConEtiqueta = new ArrayList<>();
-        this.clasificacionFlores = new HashMap<>();
+        this.clasificacion = new HashMap<>();
 
         for (Row f : super.getListaFilas()) {
             RowWithLabel fila = new RowWithLabel(f.getFila());
@@ -28,16 +28,16 @@ public class TableWithLabels extends Table {
         this.listaFilasConEtiqueta = listaFilasConEtiqueta;
     }
 
-    public Map<String, Integer> getClasificacionFlores() {
-        return clasificacionFlores;
+    public Map<String, Integer> getClasificacion() {
+        return clasificacion;
     }
 
     public void addFilas(RowWithLabel fila){
         this.listaFilasConEtiqueta.add(fila);
     }
 
-    public void setClasificacionFlores(Map<String, Integer> clasificacionFlores) {
-        this.clasificacionFlores = clasificacionFlores;
+    public void setClasificacion(Map<String, Integer> clasificacion) {
+        this.clasificacion = clasificacion;
     }
 
     @Override

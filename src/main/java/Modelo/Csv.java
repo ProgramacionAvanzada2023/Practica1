@@ -76,7 +76,7 @@ public class Csv {
             int numElemCabecera = tabla.getHeaders().size();
             while (linea != null) {
                 // Introducir nueva fila en la tabla
-                anyadirFilaEnTableWithLabels(tabla, linea, numElemCabecera);
+                anyadirFilaEnTableWithLabels(tabla, linea);
                 // Volver a leer otra línea del fichero
                 linea = bufferLectura.readLine();
             }
@@ -98,17 +98,17 @@ public class Csv {
         return tabla;
     }
 
-    private static void anyadirFilaEnTableWithLabels(TableWithLabels tabla, String linea, int numElemCabecera) {
+    private static void anyadirFilaEnTableWithLabels(TableWithLabels tabla, String linea) {
         String[] listaValores = linea.split(SEPARADOR);
         List<Double> dimensiones = new ArrayList<>();
-        for (int i = 0; i < numElemCabecera -1; i++ ) {
+        for (int i = 0; i < tabla.getHeaders().size() -1; i++ ) {
             dimensiones.add(Double.parseDouble(listaValores[i]));
         }
         RowWithLabel fila = new RowWithLabel(dimensiones);
 
-        String claseFlor = listaValores[numElemCabecera -1];
-        tabla.getClasificacionFlores().putIfAbsent(claseFlor,tabla.getClasificacionFlores().size()+1);
-        int numFlor = tabla.getClasificacionFlores().get(claseFlor);
+        String claseFlor = listaValores[tabla.getHeaders().size() -1];
+        tabla.getClasificacion().putIfAbsent(claseFlor,tabla.getClasificacion().size()+1);
+        int numFlor = tabla.getClasificacion().get(claseFlor);
         fila.setNumberClass(numFlor);
 
         tabla.addFilas(fila);
